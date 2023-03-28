@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors');
+const cors = require( 'cors' );
 const port = process.env.PORT || 5000; 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
@@ -7,7 +7,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const app = express()
 
 //  middleware 
-app.use(cors())
+app.use( cors() );
 app.use(express.json())
 
 // user name : doc-route
@@ -33,6 +33,7 @@ async function run(){
   //insert pateint data
   app.post("/pateint", async(req,res)=>{
     const pateint = req.body;
+    // console.log(pateint);
     const result = await patientCollectoin.insertOne(pateint)
     res.send(result)
   })
