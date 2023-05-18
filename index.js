@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const port = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const port = process.env.PORT || 5000;
 
 // express js server app
 const app = express()
@@ -11,7 +11,8 @@ app.use(cors());
 app.use(express.json())
 
 // mongodb cloud setup
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.hwv6ut5.mongodb.net/?retryWrites=true&w=majority`;
+// const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.hwv6ut5.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://doc-route:j2jaX7lHP6siAEDF@cluster0.hwv6ut5.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 async function run() {
@@ -33,8 +34,8 @@ async function run() {
       res.send(result)
     })
 
-     // get all doctors
-     app.get("/doctors", async (req, res) => {
+    // get all doctors
+    app.get("/doctors", async (req, res) => {
       const query = {}
       const options = await doctorCollections.find(query).toArray()
       res.send(options)
