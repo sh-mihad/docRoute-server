@@ -10,14 +10,9 @@ const app = express()
 app.use(cors());
 app.use(express.json())
 
-// user name : doc-route
-// pass : j2jaX7lHP6siAEDF
-
-
-// mongodb cloude setup
-const uri = "mongodb+srv://doc-route:j2jaX7lHP6siAEDF@cluster0.hwv6ut5.mongodb.net/?retryWrites=true&w=majority";
+// mongodb cloud setup
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.hwv6ut5.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-
 
 async function run() {
   try {
