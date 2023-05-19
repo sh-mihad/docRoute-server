@@ -17,10 +17,9 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 async function run() {
   try {
-
+    // collections
     const patientCollectoin = client.db("doc-route").collection("patient");
     const doctorCollections = client.db("doc-route").collection("doctors");
-    
 
     // getting all pateints
     app.get("/pateint", async (req, res) => {
