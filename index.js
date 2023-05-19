@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PORT || 5000;
 
 // express js server app
@@ -44,11 +44,11 @@ async function run() {
       res.send(options)
     })
 
-    // get doctor
-    app.get("/doctrs/:id", async(req,res)=>{
-      const id = req.params.id;
-      const query = {_id:ObjectId(id)}
-      const result = await doctorCollections.find(query).toArray()
+    // get doctor via email
+    app.get("/doctor", async(req,res)=>{
+      const docEmail = req.query.email
+      const query = {email:docEmail}
+      const result = await doctorCollections.findOne(query)
       res.send(result)
     })
 
