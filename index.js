@@ -51,7 +51,6 @@ async function run() {
       res.send(options)
     })
 
-
     // insert a doctor
     app.post("/doctors", async (req, res) => {
       const doctor = req.body
