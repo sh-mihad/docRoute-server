@@ -43,6 +43,14 @@ async function run() {
       res.send(options)
     })
 
+    // get doctor
+    app.get("/doctrs/:id", async(req,res)=>{
+      const docId = req.params.id;
+      const query = {_id:ObjectId(docId)}
+      const options = await doctorCollections.findOne(query);
+      res.send(options)
+    })
+
 
     // insert a doctor
     app.post("/doctors", async (req, res) => {
