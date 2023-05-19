@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const port = process.env.PORT || 5000;
 
@@ -8,7 +9,8 @@ const app = express()
 
 //  middleware 
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
+app.use(morgan('dev'));
 
 // mongodb cloud setup
 // const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.hwv6ut5.mongodb.net/?retryWrites=true&w=majority`;
