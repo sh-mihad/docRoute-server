@@ -63,12 +63,10 @@ async function run() {
 
   }
 }
-run().catch(err => console.log(err))
-
-
+run().catch(err => console.log(err));
 
 app.get("/", async (req, res) => {
-  res.send("doctorRoute server is runing")
+  res.send("doctorRoute server is running");
 })
 
 app.listen(port, () => {
