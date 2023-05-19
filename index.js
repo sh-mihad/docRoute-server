@@ -45,8 +45,8 @@ async function run() {
     })
 
     // get doctor via email
-    app.get("/doctor", async(req,res)=>{
-      const docEmail = req.query.email
+    app.get("/doctor/:email", async(req,res)=>{
+      const docEmail = req.params.email
       const query = {email:docEmail}
       const result = await doctorCollections.findOne(query)
       res.send(result)
