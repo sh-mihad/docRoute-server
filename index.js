@@ -22,6 +22,16 @@ async function run() {
     // collections
     const patientCollectoin = client.db("doc-route").collection("patient");
     const doctorCollections = client.db("doc-route").collection("doctors");
+    const allUsersCollection = client.db("doc-route").collection("allUsers")
+
+
+    // userData
+    app.get("users", async(req,res)=>{
+      const email = req.query.email;
+      const query = {email:email}
+      const result = await allUsersCollection.findOne(query)
+      
+    })
 
     // getting all pateints
     app.get("/pateint", async (req, res) => {
