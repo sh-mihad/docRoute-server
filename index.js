@@ -23,14 +23,14 @@ async function run() {
     const patientCollection = client.db("doc-route").collection("patient");
     const doctorCollections = client.db("doc-route").collection("doctors");
 
-    // getting all pateints
+    // getting all patients
     app.get("/pateint", async (req, res) => {
       const query = {}
       const options = await patientCollection.find(query).toArray();
       res.send(options)
     })
 
-    //insert pateint data
+    //insert patient data
     app.post("/pateint", async (req, res) => {
       const pateint = req.body;
       const result = await patientCollection.insertOne(pateint)
