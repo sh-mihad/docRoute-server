@@ -22,6 +22,16 @@ async function run() {
     // collections
     const patientCollection = client.db("doc-route").collection("patient");
     const doctorCollections = client.db("doc-route").collection("doctors");
+    const allUsersCollection = client.db("doc-route").collection("allUsers")
+
+
+    // userData
+    app.get("users", async(req,res)=>{
+      const email = req.query.email;
+      const query = {email:email}
+      const result = await allUsersCollection.findOne(query)
+      
+    })
 
     // getting all patients
     app.get("/pateint", async (req, res) => {
@@ -45,11 +55,11 @@ async function run() {
     })
 
     // get doctor
-    app.get("/doctors/:id", async (req, res) => {
+    app.get("/doctrs/:id", async(req,res)=>{
       const id = req.params.id;
-      const query = { _id: ObjectId(id) };
-      const result = await doctorCollections.findOne(query);
-      res.send(result);
+      const query = {_id:ObjectId(id)}
+      const result = await doctorCollections.find(query).toArray()
+      res.send(result)
     })
 
     // insert a doctor
