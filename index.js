@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PORT || 5000;
 
 // express js server app
@@ -20,20 +20,20 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
   try {
     // collections
-    const patientCollectoin = client.db("doc-route").collection("patient");
+    const patientCollection = client.db("doc-route").collection("patient");
     const doctorCollections = client.db("doc-route").collection("doctors");
 
     // getting all pateints
     app.get("/pateint", async (req, res) => {
       const query = {}
-      const options = await patientCollectoin.find(query).toArray()
+      const options = await patientCollection.find(query).toArray();
       res.send(options)
     })
 
     //insert pateint data
     app.post("/pateint", async (req, res) => {
       const pateint = req.body;
-      const result = await patientCollectoin.insertOne(pateint)
+      const result = await patientCollection.insertOne(pateint)
       res.send(result)
     })
 
@@ -45,11 +45,11 @@ async function run() {
     })
 
     // get doctor
-    app.get("/doctrs/:id", async(req,res)=>{
+    app.get("/doctors/:id", async (req, res) => {
       const id = req.params.id;
-      const query = {_id:ObjectId(id)}
-      const result = await doctorCollections.find(query).toArray()
-      res.send(result)
+      const query = { _id: ObjectId(id) };
+      const result = await doctorCollections.findOne(query);
+      res.send(result);
     })
 
     // insert a doctor
