@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PORT || 5000;
 
 // express js server app
@@ -25,7 +25,7 @@ async function run() {
     const allUsersCollection = client.db("doc-route").collection("allUsers")
 
     // userData
-    app.get("users", async (req, res) => {
+    app.get("/users", async (req, res) => {
       const email = req.query.email;
       const query = { email: email }
       const result = await allUsersCollection.findOne(query)
@@ -53,19 +53,28 @@ async function run() {
       res.send(options)
     })
 
-    app.get("/doctors/:email", async (req, res) => {
-      const email = req.params.email;
-      const query = { email };
-      const result = await doctorCollections.findOne(query);
-
-      res.send(result);
-    })
-
     // insert a doctor
     app.post("/doctors", async (req, res) => {
       const doctor = req.body
       const result = await doctorCollections.insertOne(doctor)
       res.send(result)
+    });
+
+    // get a doctor data by id
+    app.get('/doctors/:id', async (req, res) => {
+      try {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const result = await doctorCollections.findOne(query);
+        // console.log(result);
+        res.send(result);
+
+      } catch (err) {
+        res.send({
+          success: false,
+          message: err.message,
+        })
+      }
     })
 
   } finally {
