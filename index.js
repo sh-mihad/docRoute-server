@@ -55,11 +55,20 @@ async function run() {
       const result = await patientCollection.insertOne(pateint)
       res.send(result)
     })
+   
+    //filter doctor for admin aproval
+    app.get("/applying-doctor",async(req,res)=>{
+      const query = {category:doctor} 
+      const result = await allUsersCollection.find(query,{$filter:{status:"pending"}}).toArray()
+      res.send(result)
+     
+    })
+
 
     // get all doctors
     app.get("/doctors", async (req, res) => {
-      const query = {}
-      const options = await doctorCollections.find(query).toArray()
+      const query = {category:"doctor"}
+      const options = await allUsersCollection.find(query).toArray()
       res.send(options)
     })
 
