@@ -23,12 +23,22 @@ async function run() {
     const patientCollection = client.db("doc-route").collection("patient");
     const doctorCollections = client.db("doc-route").collection("doctors");
     const allUsersCollection = client.db("doc-route").collection("allUsers")
+   
+    // add user
+   app.post("/users", async (req,res)=>{
+    const userData = req.body;
+    const result = await allUsersCollection.insertOne(userData)
+    res.send(result)
+   })
 
-    // userData
-    app.get("users", async (req, res) => {
+
+
+    // get  userData
+    app.get("/users", async (req, res) => {
       const email = req.query.email;
       const query = {email:email}
       const result = await allUsersCollection.findOne(query)
+      res.send(result)
       
     })
 
