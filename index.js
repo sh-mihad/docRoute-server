@@ -78,8 +78,10 @@ async function run() {
 
     // get all doctors
     app.get("/doctors", async (req, res) => {
-      const query = {category:"doctor"}
-      const options = await allUsersCollection.find(query).toArray()
+      const options = await await allUsersCollection.find({
+        category:"doctor",
+        status:"approved",
+      }).toArray()
       res.send(options)
     })
 
