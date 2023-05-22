@@ -57,10 +57,21 @@ async function run() {
     })
    
     //filter doctor for admin aproval
-    app.get("/applying-doctor",async(req,res)=>{
-      const query = {category:doctor} 
-      const result = await allUsersCollection.find(query,{$filter:{status:"pending"}}).toArray()
-      res.send(result)
+    app.get("/applying-doctor",async(req,res)=>{ 
+      const doctors = await allUsersCollection.find({
+        category:"doctor",
+        status:"pending",
+      }).toArray()      
+      res.send(doctors)
+     
+    })
+    //get approved doctor 
+    app.get("/approved-doctor",async(req,res)=>{ 
+      const doctors = await allUsersCollection.find({
+        category:"doctor",
+        status:"approved",
+      }).toArray()      
+      res.send(doctors)
      
     })
 
@@ -84,7 +95,7 @@ async function run() {
       try {
         const id = req.params.id;
         const query = { _id: new ObjectId(id) };
-        const result = await doctorCollections.findOne(query);
+        const result = await allUsersCollection.findOne(query);
         // console.log(result);
         res.send(result);
 
