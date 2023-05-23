@@ -44,8 +44,8 @@ async function run() {
 
     // getting all patients
     app.get("/pateint", async (req, res) => {
-      const query = {}
-      const options = await patientCollection.find(query).toArray();
+      const query = {category:"patient"}
+      const options = await allUsersCollection.find(query).toArray();
       res.send(options)
     })
 
