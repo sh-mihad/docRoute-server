@@ -42,6 +42,23 @@ async function run() {
       
     })
 
+
+    // delete user like doctor or patient
+    app.delete("/users-delete/:id",async(req,res)=>{
+      try{
+       const id = req.params.id;
+       const query = { _id: new ObjectId(id) };
+       const result = await allUsersCollection.deleteOne(query)
+       res.send(result)
+
+      }catch(err){
+        res.send({
+          status:404,
+          message:err.message
+        })
+      }
+    })
+
     // getting all patients
     app.get("/pateint", async (req, res) => {
       const query = {category:"patient"}
@@ -65,6 +82,21 @@ async function run() {
       res.send(doctors)
      
     })
+   
+    // approved doctor endpoent
+    app.put("/applying-doctor/:id", async(req,res)=>{
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const updatedDoc ={
+        $set:{
+          status:"approved"
+        }
+      }
+      const result = await allUsersCollection.updateOne(filter,updatedDoc)
+      res.send(result)
+    })
+
+
     //get approved doctor 
     app.get("/approved-doctor",async(req,res)=>{ 
       const doctors = await allUsersCollection.find({
@@ -87,10 +119,21 @@ async function run() {
 
     // insert a doctor
     app.post("/doctors", async (req, res) => {
+    try{
       const doctor = req.body
       const result = await doctorCollections.insertOne(doctor)
       res.send(result)
+    }catch(err){
+      res.send({
+        status:404,
+        message:err.message
+      })
+    }
+    
     });
+
+    // update doctor status
+    
 
     // get a doctor data by id
     app.get('/doctors/:id', async (req, res) => {
@@ -108,6 +151,8 @@ async function run() {
         })
       }
     })
+
+    
 
   } finally {
 
