@@ -168,6 +168,13 @@ async function run() {
     
     })
 
+    // get all consultaion for admon
+    app.get("/all-consulation",async(req,res)=>{
+      const query = {}
+      const allConsulation = await consultationCollection.find(query).toArray()
+      res.send(allConsulation)
+    })
+
     
 
   } finally {
