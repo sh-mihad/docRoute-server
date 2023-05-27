@@ -22,7 +22,8 @@ async function run() {
     // collections
     const patientCollection = client.db("doc-route").collection("patient");
     const doctorCollections = client.db("doc-route").collection("doctors");
-    const allUsersCollection = client.db("doc-route").collection("allUsers")
+    const allUsersCollection = client.db("doc-route").collection("allUsers");
+    const consultationCollection= client.db("doc-route").collection("consultation");
    
     // add user
    app.post("/users", async (req,res)=>{
@@ -44,7 +45,7 @@ async function run() {
 
 
     // delete user like doctor or patient
-    app.delete("/users-delete/:id",async(req,res)=>{
+    app.delete("/users/:id",async(req,res)=>{
       try{
        const id = req.params.id;
        const query = { _id: new ObjectId(id) };
@@ -151,6 +152,8 @@ async function run() {
         })
       }
     })
+
+    // add consultation data
 
     
 
