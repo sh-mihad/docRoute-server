@@ -154,6 +154,11 @@ async function run() {
     })
 
     // add consultation data
+    app.post("/consultaion", async(req,res)=>{
+      const data = req.body;
+      const result = await consultationCollection.insertOne(data)
+      res.send(result)
+    })
 
     
 
