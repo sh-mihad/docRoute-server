@@ -175,6 +175,19 @@ async function run() {
       res.send(allConsulation)
     })
 
+    // update consultation 
+    app.put("/consulation:id",async(req,res)=>{
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const updatedDoc ={
+        $set:{
+          consultationStatus:"done"
+        }
+      }
+      const result = await consultationCollection.updateOne(filter,updatedDoc)
+      res.send(result)
+    })
+
     
 
   } finally {
