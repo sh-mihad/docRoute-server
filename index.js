@@ -163,7 +163,7 @@ async function run() {
     app.get("/consulation", async(req,res)=>{
      const email = req.query.email
      const query = {doctorEmail:email}
-     const consulationData = await consultationCollection.findOne(query)
+     const consulationData = await consultationCollection.find(query).toArray()
     res.send(consulationData)
     
     })
