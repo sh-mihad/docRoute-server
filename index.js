@@ -169,6 +169,22 @@ async function run() {
       }
     })
 
+       // delete applying doctor
+       app.delete("/doctors/:id",async(req,res)=>{
+        try{
+         const id = req.params.id;
+         const query = { _id: new ObjectId(id) };
+         const result = await allUsersCollection.deleteOne(query)
+         res.send(result)
+  
+        }catch(err){
+          res.send({
+            status:404,
+            message:err.message
+          })
+        }
+      })
+
     // add consultation data
     app.post("/consultaion", async(req,res)=>{
       const data = req.body;
