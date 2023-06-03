@@ -58,6 +58,8 @@ async function run() {
       }
     })
 
+   
+
     // getting all patients
     app.get("/pateint", async (req, res) => {
       const query = {category:"patient"}
@@ -104,6 +106,22 @@ async function run() {
       }).toArray()      
       res.send(doctors)
      
+    })
+
+     // delete applying doctor
+     app.delete("/approved-doctor/:id",async(req,res)=>{
+      try{
+       const id = req.params.id;
+       const query = { _id: new ObjectId(id) };
+       const result = await allUsersCollection.deleteOne(query)
+       res.send(result)
+
+      }catch(err){
+        res.send({
+          status:404,
+          message:err.message
+        })
+      }
     })
 
 
@@ -168,7 +186,7 @@ async function run() {
     
     })
 
-    // get all consultaion for admon
+    // get all consultaion for admin
     app.get("/all-consulation",async(req,res)=>{
       const query = {}
       const allConsulation = await consultationCollection.find(query).toArray()
@@ -187,7 +205,6 @@ async function run() {
       const result = await consultationCollection.updateOne(filter,updatedDoc)
       res.send(result)
     })
-
     
 
   } finally {
