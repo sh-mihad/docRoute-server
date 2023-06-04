@@ -67,6 +67,23 @@ async function run() {
       res.send(options)
     })
 
+    // delete pataient
+    app.delete("/pateint/:id", async(req,res)=>{
+      try{
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const result = await allUsersCollection.deleteOne(query)
+        res.send(result)
+ 
+       }catch(err){
+         res.send({
+           status:404,
+           message:err.message
+         })
+       }
+
+    })
+
     //insert patient data
     app.post("/pateint", async (req, res) => {
       const pateint = req.body;
@@ -169,7 +186,7 @@ async function run() {
       }
     })
 
-       // delete applying doctor
+       // delete apporved doctor
        app.delete("/doctors/:id",async(req,res)=>{
         try{
          const id = req.params.id;
