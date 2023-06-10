@@ -2,18 +2,31 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const SerpApi = require('google-search-results-nodejs');
+const search = new SerpApi.GoogleSearch("1f9bc3b81ef1247ae5bac893ec4b862e645f521cc40a585bbee0156ebb9c7f15");
+// const axios = require('axios');
+// const apiKey = '1f9bc3b81ef1247ae5bac893ec4b862e645f521cc40a585bbee0156ebb9c7f15';
+// const searchEngine = 'google_lens';
+// const searchQuery = 'https://i.ibb.co/b2j1SQ1/herpes-skin.jpg';
+// const apiUrl = `https://serpapi.com/search?engine=${searchEngine}&q=${searchQuery}&api_key=${apiKey}`;
 const port = process.env.PORT || 5000;
 
-// express js server app
+
+
+
+
+
 const app = express()
 
 //  middleware 
-app.use(cors());
+app.use(cors({
+  credentials:true,
+  origin:"*"
+}));
 app.use(express.json());
 app.use(morgan('dev'));
 
-// mongodb cloud setup
-// const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.hwv6ut5.mongodb.net/?retryWrites=true&w=majority`;
+
 const uri = `mongodb+srv://doc-route:j2jaX7lHP6siAEDF@cluster0.hwv6ut5.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
@@ -22,6 +35,27 @@ async function run() {
     // collections
     const allUsersCollection = client.db("doc-route").collection("allUsers");
     const consultationCollection= client.db("doc-route").collection("consultation");
+
+
+
+    app.get("/detaction",async(req,res)=>{
+      const url = req.query.url;
+      // serp api code
+     const params = {
+        engine: "google_lens",
+         url: `${url}`,
+         hl: "bn"
+      };
+
+      const callback = function(data) {
+      // console.log(data["visual_matches"]);
+       res.send(data["visual_matches"].slice(0,10))
+    };
+
+    // Show result as JSON
+    search.json(params, callback);
+    })
+
    
     // add user
    app.post("/users", async (req,res)=>{
